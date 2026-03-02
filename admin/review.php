@@ -15,6 +15,17 @@ $conn = getDbConnection();
 $message = '';
 $messageType = '';
 
+function getCategoryLabel($category) {
+    $labels = [
+        'staff' => 'Staff',
+        'kepala_divisi' => 'Kepala Divisi',
+        'manager' => 'Manager',
+        'direktur' => 'Direktur',
+        'kepala_perusahaan' => 'Kepala Perusahaan'
+    ];
+    return $labels[$category] ?? ucfirst($category);
+}
+
 // Check user position and role
 $position = $_SESSION['position'] ?? 'staff';
 $isAdmin = $_SESSION['role'] === 'admin';
@@ -404,7 +415,7 @@ function getPositionName($position) {
                                         </div>
                                     </div>
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px;">
-                                        <span>📂 <?php echo ucfirst($report['category'] ?? 'general'); ?></span>
+                                        <span>📂 <?php echo getCategoryLabel($report['category'] ?? 'staff'); ?></span>
                                         <span>🔥 <span class="badge badge-<?php echo $report['priority'] ?? 'medium'; ?>"><?php echo ucfirst($report['priority'] ?? 'medium'); ?></span></span>
                                         <span>📅 <?php echo date('d M Y, H:i', strtotime($report['created_at'])); ?></span>
                                     </div>

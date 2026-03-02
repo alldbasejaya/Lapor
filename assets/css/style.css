@@ -35,10 +35,164 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(-45deg, #4f46e5, #4338ca, #3730a3, #5b21b6, #7c3aed);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animated Background Shapes */
+.login-page::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -100px;
+    left: -100px;
+    animation: floatShape 20s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.login-page::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    bottom: -50px;
+    right: -50px;
+    animation: floatShape 15s ease-in-out infinite reverse;
+    pointer-events: none;
+}
+
+@keyframes floatShape {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    25% {
+        transform: translate(50px, 30px) scale(1.1);
+    }
+    50% {
+        transform: translate(-30px, 60px) scale(0.9);
+    }
+    75% {
+        transform: translate(-60px, -30px) scale(1.05);
+    }
+}
+
+/* Animated Floating Bubbles */
+.login-bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.login-bubbles span {
+    position: absolute;
+    display: block;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    animation: rise 15s infinite ease-in;
+    bottom: -100px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.login-bubbles span:nth-child(1) {
+    left: 10%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+    animation-duration: 12s;
+}
+
+.login-bubbles span:nth-child(2) {
+    left: 20%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 2s;
+    animation-duration: 10s;
+}
+
+.login-bubbles span:nth-child(3) {
+    left: 35%;
+    width: 100px;
+    height: 100px;
+    animation-delay: 4s;
+    animation-duration: 14s;
+}
+
+.login-bubbles span:nth-child(4) {
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    animation-delay: 1s;
+    animation-duration: 11s;
+}
+
+.login-bubbles span:nth-child(5) {
+    left: 65%;
+    width: 90px;
+    height: 90px;
+    animation-delay: 3s;
+    animation-duration: 13s;
+}
+
+.login-bubbles span:nth-child(6) {
+    left: 80%;
+    width: 50px;
+    height: 50px;
+    animation-delay: 5s;
+    animation-duration: 9s;
+}
+
+.login-bubbles span:nth-child(7) {
+    left: 90%;
+    width: 75px;
+    height: 75px;
+    animation-delay: 2.5s;
+    animation-duration: 12s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -100px;
+        transform: translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(50px) rotate(180deg);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 100%;
+        transform: translateX(-50px) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .login-container {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: 420px;
     padding: 20px;
@@ -48,12 +202,34 @@ body {
     background: var(--card-bg);
     border-radius: 12px;
     padding: 40px;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 .login-header {
     text-align: center;
     margin-bottom: 30px;
+    position: relative;
+    width: 100%;
+}
+
+.login-header .close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--text-secondary);
+    font-size: 24px;
+    text-decoration: none;
+    line-height: 1;
+    padding: 5px 10px;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.login-header .close-btn:hover {
+    color: var(--danger-color);
 }
 
 .login-header h1 {
@@ -181,6 +357,17 @@ body {
 .btn-block {
     width: 100%;
     display: block;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.form-actions .btn {
+    flex: 1;
+    max-width: 150px;
 }
 
 /* Alerts */

@@ -15,6 +15,17 @@ $conn = getDbConnection();
 $message = '';
 $messageType = '';
 
+function getCategoryLabel($category) {
+    $labels = [
+        'staff' => 'Staff',
+        'kepala_divisi' => 'Kepala Divisi',
+        'manager' => 'Manager',
+        'direktur' => 'Direktur',
+        'kepala_perusahaan' => 'Kepala Perusahaan'
+    ];
+    return $labels[$category] ?? ucfirst($category);
+}
+
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'update_status') {
@@ -222,7 +233,7 @@ function getStatusClass($status) {
                                             <br>
                                             <small style="color: var(--text-secondary);"><?php echo htmlspecialchars(substr($report['description'], 0, 60)) . (strlen($report['description']) > 60 ? '...' : ''); ?></small>
                                         </td>
-                                        <td><span class="badge badge-secondary"><?php echo ucfirst($report['category'] ?? 'general'); ?></span></td>
+                                        <td><span class="badge badge-secondary"><?php echo getCategoryLabel($report['category'] ?? 'staff'); ?></span></td>
                                         <td>
                                             <?php
                                             $priorityClass = 'badge-secondary';

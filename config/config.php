@@ -9,6 +9,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Load language helper
+require_once __DIR__ . '/language.php';
+initLanguage();
+
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

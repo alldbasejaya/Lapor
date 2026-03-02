@@ -55,8 +55,15 @@ CREATE TABLE IF NOT EXISTS reports (
     file_name VARCHAR(255) NOT NULL,
     file_type VARCHAR(100),
     file_size INT,
+    category VARCHAR(50) DEFAULT 'general',
+    priority VARCHAR(20) DEFAULT 'medium',
+    notes TEXT,
+    reviewed_by INT,
+    resolved_by INT,
     status ENUM('pending', 'reviewed', 'resolved', 'rejected') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (reviewed_by) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (resolved_by) REFERENCES users(id) ON DELETE SET NULL
 );

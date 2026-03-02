@@ -96,16 +96,24 @@ function getPriorityClass($priority) {
 
 function getCategoryIcon($category) {
     $icons = [
-        'general' => '📋',
-        'finance' => '💰',
-        'hr' => '👥',
-        'operation' => '⚙️',
-        'marketing' => '📢',
-        'it' => '💻',
-        'legal' => '⚖️',
-        'other' => '📁'
+        'staff' => '👤',
+        'kepala_divisi' => '📋',
+        'manager' => '💼',
+        'direktur' => '👔',
+        'kepala_perusahaan' => '🏢'
     ];
-    return $icons[$category] ?? '📁';
+    return $icons[$category] ?? '👤';
+}
+
+function getCategoryLabel($category) {
+    $labels = [
+        'staff' => 'Staff',
+        'kepala_divisi' => 'Kepala Divisi',
+        'manager' => 'Manager',
+        'direktur' => 'Direktur',
+        'kepala_perusahaan' => 'Kepala Perusahaan'
+    ];
+    return $labels[$category] ?? ucfirst($category);
 }
 ?>
 <!DOCTYPE html>
@@ -306,7 +314,7 @@ function getCategoryIcon($category) {
             <div class="dashboard-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
                     <h2>All Reports</h2>
-                    <a href="dashboard.php" class="upload-btn">📤 Upload New Report</a>
+                    <a href="upload.php" class="upload-btn">📤 Upload New Report</a>
                 </div>
 
                 <!-- Filter Tabs -->
@@ -343,7 +351,7 @@ function getCategoryIcon($category) {
                                 <div>
                                     <div class="report-title"><?php echo htmlspecialchars($report['title']); ?></div>
                                     <div class="report-meta">
-                                        <span><?php echo getCategoryIcon($report['category']); ?> <?php echo ucfirst($report['category']); ?></span>
+                                        <span><?php echo getCategoryIcon($report['category']); ?> <?php echo getCategoryLabel($report['category']); ?></span>
                                         <span><span class="badge <?php echo getPriorityClass($report['priority']); ?>"><?php echo ucfirst($report['priority']); ?></span></span>
                                         <span>📅 <?php echo date('d M Y, H:i', strtotime($report['created_at'])); ?></span>
                                     </div>

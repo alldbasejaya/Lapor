@@ -12,21 +12,35 @@ if (isLoggedIn()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo htmlspecialchars(getCurrentLanguage()); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Lapor System</title>
+    <title><?php echo __('login.title'); ?> - <?php echo __('app_name'); ?></title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="login-page">
+    <!-- Language Switcher -->
+    <?php include 'includes/language_switcher.php'; ?>
+
+    <!-- Animated Background Bubbles -->
+    <div class="login-bubbles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h1>Lapor System</h1>
-                <p>Sign in to your account</p>
+                <h1><?php echo __('app_name'); ?></h1>
+                <p><?php echo __('login.subtitle'); ?></p>
             </div>
-            
+
             <?php if (isset($_GET['error']) || isset($_SESSION['login_error'])): ?>
                 <div class="alert alert-error">
                     <?php
@@ -36,50 +50,50 @@ if (isLoggedIn()) {
                         unset($_SESSION['login_error']);
                     } else {
                         $error = $_GET['error'];
-                        if ($error === 'invalid') echo 'Invalid username or password!';
-                        elseif ($error === 'inactive') echo 'Your account has been deactivated. Please contact administrator.';
-                        elseif ($error === 'logout') echo 'You have been logged out successfully.';
-                        elseif ($error === 'access') echo 'Please login to access this page.';
-                        else echo 'An error occurred. Please try again.';
+                        if ($error === 'invalid') echo __('login.errors.invalid');
+                        elseif ($error === 'inactive') echo __('login.errors.inactive');
+                        elseif ($error === 'logout') echo __('login.errors.logout');
+                        elseif ($error === 'access') echo __('login.errors.access');
+                        else echo __('login.errors.generic');
                     }
                     ?>
                 </div>
             <?php endif; ?>
-            
+
             <?php if (isset($_GET['success'])): ?>
                 <div class="alert alert-success">
                     <?php
                     $success = $_GET['success'];
-                    if ($success === 'registered') echo 'Registration successful! Please login.';
-                    elseif ($success === 'reset') echo 'Password reset successful! Please login with your new password.';
+                    if ($success === 'registered') echo __('login.success.registered');
+                    elseif ($success === 'reset') echo __('login.success.reset');
                     ?>
                 </div>
             <?php endif; ?>
-            
+
             <form action="auth/login.php" method="POST" class="login-form">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required autofocus placeholder="Enter your username">
+                    <label for="username"><?php echo __('login.username'); ?></label>
+                    <input type="text" id="username" name="username" required autofocus placeholder="<?php echo __('login.username_placeholder'); ?>">
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    <label for="password"><?php echo __('login.password'); ?></label>
+                    <input type="password" id="password" name="password" required placeholder="<?php echo __('login.password_placeholder'); ?>">
                 </div>
-                
+
                 <div class="form-options">
                     <label class="checkbox-label">
                         <input type="checkbox" name="remember">
-                        <span>Remember me</span>
+                        <span><?php echo __('login.remember_me'); ?></span>
                     </label>
-                    <a href="#" class="forgot-link">Forgot password?</a>
+                    <a href="#" class="forgot-link"><?php echo __('login.forgot_password'); ?></a>
                 </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+
+                <button type="submit" class="btn btn-primary btn-block"><?php echo __('login.sign_in'); ?></button>
             </form>
-            
+
             <div class="login-footer">
-                <p>Don't have an account? <a href="register.php">Register here</a></p>
+                <p><?php echo __('login.no_account'); ?> <a href="register.php"><?php echo __('login.register_here'); ?></a></p>
             </div>
         </div>
     </div>

@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation
     if ($password !== $confirm_password) {
-        $message = 'Passwords do not match!';
+        $message = __('register.errors.password_mismatch');
         $messageType = 'error';
     } elseif (strlen($password) < 6) {
-        $message = 'Password must be at least 6 characters!';
+        $message = __('register.errors.password_short');
         $messageType = 'error';
     } else {
         $conn = getDbConnection();
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $message = 'Username or email already exists!';
+            $message = __('register.errors.user_exists');
             $messageType = 'error';
         } else {
             // Insert new user
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 redirect(BASE_URL . 'index.php?success=registered');
             } else {
-                $message = 'Registration failed. Please try again.';
+                $message = __('register.errors.registration_failed');
                 $messageType = 'error';
             }
         }
@@ -56,69 +56,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo htmlspecialchars(getCurrentLanguage()); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Lapor System</title>
+    <title><?php echo __('register.title'); ?> - <?php echo __('app_name'); ?></title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="login-page">
+    <!-- Language Switcher -->
+    <?php include 'includes/language_switcher.php'; ?>
+
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h1>Create Account</h1>
-                <p>Register for a new account</p>
+                <h1><?php echo __('register.title'); ?></h1>
+                <p><?php echo __('register.subtitle'); ?></p>
             </div>
-            
+
             <?php if ($message): ?>
                 <div class="alert alert-<?php echo $messageType; ?>">
                     <?php echo htmlspecialchars($message); ?>
                 </div>
             <?php endif; ?>
-            
+
             <form method="POST" class="login-form">
                 <div class="form-group">
-                    <label for="full_name">Full Name</label>
-                    <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name">
+                    <label for="full_name"><?php echo __('register.full_name'); ?></label>
+                    <input type="text" id="full_name" name="full_name" required placeholder="<?php echo __('register.full_name_placeholder'); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required placeholder="Choose a username">
+                    <label for="username"><?php echo __('register.username'); ?></label>
+                    <input type="text" id="username" name="username" required placeholder="<?php echo __('register.username_placeholder'); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    <label for="email"><?php echo __('register.email'); ?></label>
+                    <input type="email" id="email" name="email" required placeholder="<?php echo __('register.email_placeholder'); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label>Position</label>
+                    <label><?php echo __('register.position'); ?></label>
                     <select name="position" required>
-                        <option value="staff">Staff</option>
-                        <option value="kepala_divisi">Kepala Divisi</option>
-                        <option value="manager">Manager</option>
-                        <option value="direktur">Direktur</option>
-                        <option value="kepala_perusahaan">Kepala Perusahaan</option>
+                        <option value="staff"><?php echo __('register.positions.staff'); ?></option>
+                        <option value="kepala_divisi"><?php echo __('register.positions.kepala_divisi'); ?></option>
+                        <option value="manager"><?php echo __('register.positions.manager'); ?></option>
+                        <option value="direktur"><?php echo __('register.positions.direktur'); ?></option>
+                        <option value="kepala_perusahaan"><?php echo __('register.positions.kepala_perusahaan'); ?></option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="Create a password">
+                    <label for="password"><?php echo __('register.password'); ?></label>
+                    <input type="password" id="password" name="password" required placeholder="<?php echo __('register.password_placeholder'); ?>">
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+                    <label for="confirm_password"><?php echo __('register.confirm_password'); ?></label>
+                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="<?php echo __('register.confirm_password_placeholder'); ?>">
                 </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+
+                <div class="form-actions">
+                    <a href="index.php" class="btn btn-secondary"><?php echo __('register.cancel'); ?></a>
+                    <button type="submit" class="btn btn-primary"><?php echo __('register.register'); ?></button>
+                </div>
             </form>
-            
+
             <div class="login-footer">
-                <p>Already have an account? <a href="index.php">Sign in here</a></p>
+                <p><?php echo __('register.have_account'); ?> <a href="index.php"><?php echo __('register.sign_in_here'); ?></a></p>
             </div>
         </div>
     </div>
